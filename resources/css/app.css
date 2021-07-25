@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-yellow-200
+    }
+
+    input[type="text"] {
+        @apply border-2 border-gray-600 w-3/4
+    }
+}
+
+@layer components {
+    .container {
+        @apply bg-gray-50 rounded-md align-middle w-3/4 p-8
+    }
+
+    .button {
+        @apply bg-blue-600 text-gray-50 p-2 ml-4 rounded-sm
+    }
+
+    .alert {
+        @apply p-8 text-white rounded-md my-4
+    }
+
+    .alert-danger {
+        @apply bg-red-500 border-red-700 
+    }
+
+    .alert-success {
+        @apply bg-green-500 border-green-700 
+    }
+}
+
+@layer utilities {
+    /* @variants hover, focus {
+        .filter-none {
+            filter: none;
+        }
+        .filter-grayscale {
+            filter: grayscale(100%);
+        }
+    } */
+}
