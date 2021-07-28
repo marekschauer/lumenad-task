@@ -8,6 +8,8 @@ class CsvColumnsCount implements Rule
 {
     private $min;
     private $max;
+    private $count_min;
+    private $count_max;
     
     /**
      * Create a new rule instance.
@@ -18,6 +20,8 @@ class CsvColumnsCount implements Rule
     {
         $this->min = $min;
         $this->max = $max;
+        $this->count_min = PHP_INT_MAX;
+        $this->count_max = PHP_INT_MIN;
     }
 
     /**
@@ -36,6 +40,9 @@ class CsvColumnsCount implements Rule
         foreach ($lines as $line) {
             $parsed_line = str_getcsv($line);
             $cols_count = count($parsed_line);
+
+            $this->count_min = min([$cols_count, $this->count_min]);
+            $this->count_max = max([$cols_count, $this->count_max]);
             
             if ($cols_count < $this->min) {
                 return false;
@@ -56,6 +63,9 @@ class CsvColumnsCount implements Rule
      */
     public function message()
     {
-        return 'The CSV file needs to have at least ' . $this->min . ' columns, but no more than ' . $this->max . ' columns.';
+        $message = 'The CSV file needs to have at least ' . $this->min . ' columns, but no more than ' . $this->max . ' columns.';
+        $current_count = $this->count_min === $this->count_max ? $this->count_min : $this->count_min . ' - ' . $this->count_max;
+        $message .= 'Uploaded file has ' . $current_count . 'columns';
+        return $message;
     }
 }

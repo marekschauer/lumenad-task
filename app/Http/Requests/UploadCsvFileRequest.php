@@ -27,6 +27,7 @@ class UploadCsvFileRequest extends FormRequest
     {
         return [
             'csv_file' => [
+                'required',
                 new CsvRowsCount(2),
                 new CsvColumnsCount(3, 10)
             ],

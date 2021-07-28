@@ -9,11 +9,11 @@
         </div>
         <div class="flex flex-row mb-5 justify-end">
             <a href="#" class="button" @click="createColumn()">
-                <i class="fas fa-plus-square"></i>
+                <i class="fas fa-plus-square"></i>&nbsp;
                 Add column
             </a>
             <a href="#" class="button" @click="showSaveDialog()">
-                <i class="fas fa-save"></i>
+                <i class="fas fa-save"></i>&nbsp;
                 Save these data to database
             </a>
         </div>
@@ -71,13 +71,6 @@
         created() {
             this.csv_header = JSON.parse(this.header)
             this.csv_data = JSON.parse(this.body)
-
-            if (!this.csv_header)
-            console.log(this.header, this.csv_data)
-        },
-        
-        mounted() {
-            console.log("Example component mounted");
         },
 
         methods: {
@@ -105,6 +98,7 @@
                 })
                 .then((response) => {
                     this.message = response.data.message
+                    this.save_dialog_visible = false
                 })
                 .catch(err => this.error = err)
             },

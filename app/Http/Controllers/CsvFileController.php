@@ -77,7 +77,7 @@ class CsvFileController extends Controller
     public function search(Request $request) {
         $query = $request->input('query');
         
-        $imported_data = ImportedData::where('name', 'LIKE', $query)
+        $imported_data = ImportedData::where('name', 'LIKE', '%'.$query.'%')
                             ->get();
 
         return response()->json([

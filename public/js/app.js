@@ -1875,7 +1875,16 @@ __webpack_require__.r(__webpack_exports__);
     search: function search() {
       var _this = this;
 
-      axios.get('/csv/search').then(function (response) {
+      if (this.queryString == '') {
+        this.searched = [];
+        return;
+      }
+
+      axios.get('/csv/search', {
+        params: {
+          'query': this.queryString
+        }
+      }).then(function (response) {
         return _this.searched = response.data.imported_data;
       })["catch"](function (err) {
         return console.log(err);
@@ -1963,10 +1972,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     this.csv_header = JSON.parse(this.header);
     this.csv_data = JSON.parse(this.body);
-    if (!this.csv_header) console.log(this.header, this.csv_data);
-  },
-  mounted: function mounted() {
-    console.log("Example component mounted");
   },
   methods: {
     createColumn: function createColumn() {
@@ -1996,6 +2001,7 @@ __webpack_require__.r(__webpack_exports__);
         csv_body: this.csv_data
       }).then(function (response) {
         _this2.message = response.data.message;
+        _this2.save_dialog_visible = false;
       })["catch"](function (err) {
         return _this2.error = err;
       });
@@ -19681,19 +19687,27 @@ var render = function() {
     }),
     _vm._v(" "),
     _vm.searched.length
-      ? _c("div", { staticClass: "pt-2" }, [
+      ? _c("div", { staticClass: "pt-2 w-3/4 m-auto" }, [
           _c(
             "ul",
+            { staticClass: "block" },
             _vm._l(_vm.searched, function(result) {
-              return _c("li", { key: result.id, staticClass: "p-2" }, [
-                _c("a", { attrs: { href: "/csv/" + result.id } }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(result.name) +
-                      "\n                "
-                  )
-                ])
-              ])
+              return _c(
+                "li",
+                {
+                  key: result.id,
+                  staticClass: "p-2 text-left hover:bg-gray-200"
+                },
+                [
+                  _c("a", { attrs: { href: "/csv/" + result.id } }, [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(result.name) +
+                        "\n                "
+                    )
+                  ])
+                ]
+              )
             }),
             0
           )
@@ -19755,7 +19769,7 @@ var render = function() {
         },
         [
           _c("i", { staticClass: "fas fa-plus-square" }),
-          _vm._v("\n            Add column\n        ")
+          _vm._v(" \n            Add column\n        ")
         ]
       ),
       _vm._v(" "),
@@ -19772,7 +19786,7 @@ var render = function() {
         },
         [
           _c("i", { staticClass: "fas fa-save" }),
-          _vm._v("\n            Save these data to database\n        ")
+          _vm._v(" \n            Save these data to database\n        ")
         ]
       )
     ]),
